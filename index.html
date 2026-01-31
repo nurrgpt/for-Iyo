@@ -4,27 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Harriet 🎂</title>
-  <link rel="icon" href="https://fav.farm/🎂" />
+    <link rel="icon" href="https://fav.farm/🎂" />
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
         body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #fff9c4; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-        #card { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; width: 340px; position: relative; z-index: 10; }
+        #card { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; width: 350px; position: relative; z-index: 10; }
         .hidden { display: none !important; }
         h1 { color: #fbc02d; font-size: 24px; }
-        button { padding: 12px 25px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+        button { padding: 12px 25px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 15px; transition: 0.3s; z-index: 20; position: relative; }
         
+        /* THE REAL CAKE */
+        .cake-container { position: relative; width: 200px; height: 150px; margin: 20px auto; }
+        .cake-base { position: absolute; bottom: 0; width: 200px; height: 100px; background: #3d1f00; /* Dark Chocolate */ border-radius: 10px 10px 5px 5px; }
+        .frosting { position: absolute; top: 40px; width: 200px; height: 30px; background: #ff85a2; /* Pink Frosting */ border-radius: 50%; box-shadow: 0 5px 0 #f06292; }
+        .cake-top { position: absolute; top: 35px; width: 200px; height: 40px; background: #5d2e00; border-radius: 50%; }
+        
+        /* Handwritten Text on Cake */
+        .cake-writing {
+            position: absolute; top: 45px; width: 100%; color: #ffeb3b; 
+            font-family: 'Dancing Script', cursive; font-size: 18px; line-height: 1.2;
+            opacity: 0; transition: opacity 2s ease-in; pointer-events: none;
+        }
+
+        /* The Candle */
+        .candle { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 12px; height: 50px; background: #fff; border-radius: 3px; }
+        .flame { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 25px; transition: 0.5s; }
+        .extinguished { opacity: 0; transform: translateY(-20px) scale(0); }
+
         /* Step 1: Bouncing No */
         #noBtn { background-color: #eeeeee; color: #999; position: absolute; transition: 0.2s; }
         #yesBtn { background-color: #fbc02d; color: white; }
 
-        /* Step 2: The Cake */
-        .cake { font-size: 80px; position: relative; display: inline-block; }
-        .flame { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 30px; transition: 0.5s; }
-        .extinguished { opacity: 0; transform: translateY(-20px) scale(0); }
-        #blowStatus { font-size: 14px; color: #666; margin-top: 10px; font-style: italic; }
-
         /* Step 3: The Letter */
-        .letter { background: #fffde7; padding: 20px; border: 1px dashed #fbc02d; border-radius: 15px; text-align: left; font-style: italic; color: #444; line-height: 1.6; font-size: 14px; }
+        .letter { background: #fffde7; padding: 20px; border: 1px dashed #fbc02d; border-radius: 15px; text-align: left; font-style: italic; color: #444; line-height: 1.6; font-size: 14px; max-height: 300px; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -40,14 +54,19 @@
         </div>
 
         <div id="step2" class="hidden">
-            <div class="cake">
-                <div id="flame" class="flame">🔥</div>
-                🎂
+            <div class="cake-container">
+                <div class="cake-base"></div>
+                <div class="cake-top"></div>
+                <div class="frosting"></div>
+                <div class="cake-writing" id="cakeWriting">
+                    Happy Birthday,<br>Iyomo! ✨
+                </div>
+                <div class="candle">
+                    <div id="flame" class="flame">🔥</div>
+                </div>
             </div>
-            <h1 id="bdayText" class="hidden">Happy Birthday, Iyomo! ✨</h1>
-            <p id="instruction">Tap 'Allow Mic' and blow to extinguish the candle!</p>
+            <p id="instruction">Tap 'Activate' and blow to blow out the candle!</p>
             <button id="blowBtn" style="background:#03a9f4; color:white;">Activate Mic & Blow</button>
-            <div id="blowStatus"></div>
             <button id="continueBtn" class="hidden" style="background:#4CAF50; color:white;">Continue →</button>
         </div>
 
@@ -66,24 +85,21 @@
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         
-        // 1. Step 1: Bouncing No Logic
         function bounceNo() {
             const x = Math.random() * (window.innerWidth - 100);
             const y = Math.random() * (window.innerHeight - 50);
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
         }
-        setInterval(bounceNo, 800); // Moves every 0.8 seconds automatically
+        setInterval(bounceNo, 800);
 
         yesBtn.onclick = () => {
             document.getElementById('step1').classList.add('hidden');
             document.getElementById('step2').classList.remove('hidden');
         };
 
-        // 2. Step 2: Microphone "Blow" Logic
         document.getElementById('blowBtn').onclick = function() {
             this.innerText = "Listening...";
-            
             navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {
                 const audioContext = new AudioContext();
@@ -100,15 +116,14 @@
                     for (let i = 0; i < bufferLength; i++) { values += dataArray[i]; }
                     let average = values / bufferLength;
 
-                    if (average > 50) { // Threshold for "blowing"
+                    if (average > 50) { 
                         document.getElementById('flame').classList.add('extinguished');
-                        document.getElementById('bdayText').classList.remove('hidden');
+                        document.getElementById('cakeWriting').style.opacity = "1";
                         document.getElementById('continueBtn').classList.remove('hidden');
                         document.getElementById('instruction').classList.add('hidden');
                         document.getElementById('blowBtn').classList.add('hidden');
-                        document.getElementById('blowStatus').innerText = "You blew it out!";
                         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                        stream.getTracks().forEach(track => track.stop()); // Stop mic
+                        stream.getTracks().forEach(track => track.stop());
                     } else {
                         requestAnimationFrame(checkVolume);
                     }
@@ -116,16 +131,15 @@
                 checkVolume();
             })
             .catch(err => {
-                document.getElementById('blowStatus').innerText = "Mic access denied. Just tap the candle instead!";
+                alert("Mic error. Tap the flame to blow it out!");
                 document.getElementById('flame').onclick = () => {
                      document.getElementById('flame').classList.add('extinguished');
-                     document.getElementById('bdayText').classList.remove('hidden');
+                     document.getElementById('cakeWriting').style.opacity = "1";
                      document.getElementById('continueBtn').classList.remove('hidden');
                 };
             });
         };
 
-        // 3. Step 3: Continue to Letter
         document.getElementById('continueBtn').onclick = () => {
             document.getElementById('step2').classList.add('hidden');
             document.getElementById('step3').classList.remove('hidden');
