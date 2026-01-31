@@ -10,35 +10,62 @@
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
 
         body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #fce4ec; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-        #card { background: white; padding: 25px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; width: 380px; position: relative; z-index: 10; }
+        #card { background: white; padding: 25px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; width: 360px; position: relative; z-index: 10; }
         .hidden { display: none !important; }
         
         /* BALLOONS */
-        .balloon { position: absolute; bottom: -100px; width: 40px; height: 50px; border-radius: 50%; opacity: 0.7; z-index: 1; animation: floatUp 6s linear infinite; }
-        @keyframes floatUp { to { transform: translateY(-120vh) translateX(50px); } }
+        .balloon { position: absolute; bottom: -100px; width: 45px; height: 55px; border-radius: 50%; opacity: 0.7; z-index: 1; animation: floatUp 6s linear infinite; }
+        @keyframes floatUp { to { transform: translateY(-120vh) translateX(40px); } }
 
-        /* THE CAKE */
-        .cake-container { position: relative; width: 280px; height: 250px; margin: 20px auto; cursor: pointer; }
-        .cake-body { position: absolute; bottom: 10px; left: 15px; width: 250px; height: 140px; background: #4e342e; border-radius: 10px 10px 100px 100px / 10px 10px 30px 30px; box-shadow: inset -20px 0 30px rgba(0,0,0,0.4); background-image: radial-gradient(#ff85a2 2px, transparent 2px), radial-gradient(#64b5f6 2px, transparent 2px), radial-gradient(#fff176 2px, transparent 2px); background-size: 30px 30px; background-position: 0 0, 15px 15px, 10px 25px; }
-        .cake-top { position: absolute; top: 75px; left: 15px; width: 250px; height: 60px; background: #5d4037; border-radius: 50%; border: 8px dashed #3e2723; z-index: 2; }
-        .cake-writing { position: absolute; top: 150px; left: 50%; transform: translate(-50%, -50%); width: 80%; color: #fff; font-family: 'Dancing Script', cursive; font-size: 28px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); opacity: 0; transition: opacity 2s; z-index: 20; }
-        .candle { position: absolute; width: 6px; height: 40px; background: repeating-linear-gradient(45deg, #ff85a2, #ff85a2 5px, #fff 5px, #fff 10px); border-radius: 2px; }
-        .flame { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 10px; height: 18px; background: #ffca28; border-radius: 50% 50% 20% 20%; box-shadow: 0 0 15px #ffca28; animation: flicker 0.1s infinite alternate; }
-        .extinguished .flame { display: none; }
+        /* THE UPDATED 3D CAKE */
+        .cake-v2-container { position: relative; width: 280px; height: 260px; margin: 15px auto; cursor: pointer; }
+        
+        /* Dark Chocolate Base */
+        .cake-v2-base { 
+            position: absolute; bottom: 10px; left: 15px; width: 250px; height: 130px; 
+            background: #3d1f00; border-radius: 10px 10px 100px 100px / 10px 10px 30px 30px;
+            box-shadow: inset -15px 0 30px rgba(0,0,0,0.5);
+            background-image: radial-gradient(#ff85a2 2px, transparent 2px), radial-gradient(#64b5f6 2px, transparent 2px);
+            background-size: 25px 25px; background-position: 0 0, 10px 10px;
+        }
 
-        /* THE GIFT BOX */
-        .gift-container { position: relative; width: 150px; height: 150px; margin: 30px auto; cursor: pointer; }
-        .gift-box { position: absolute; bottom: 0; width: 150px; height: 110px; background: #ff4081; border-radius: 10px; }
-        .gift-lid { position: absolute; top: 0; width: 160px; height: 40px; background: #f50057; left: -5px; border-radius: 5px; transition: 0.8s; z-index: 5; }
-        .ribbon-v { position: absolute; left: 50%; transform: translateX(-50%); width: 25px; height: 100%; background: #ffeb3b; }
-        .ribbon-h { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; height: 25px; background: #ffeb3b; }
-        .open .gift-lid { transform: translateY(-160px) rotate(25deg); opacity: 0; }
+        /* Pink Cream Rim */
+        .cake-v2-rim { 
+            position: absolute; top: 90px; left: 15px; width: 250px; height: 60px; 
+            background: #f06292; border-radius: 50%; border: 6px dashed #3d1f00; 
+            z-index: 2; box-sizing: border-box;
+        }
+
+        /* Chocolate Top Surface */
+        .cake-v2-top {
+            position: absolute; top: 100px; left: 40px; width: 200px; height: 40px;
+            background: #5d4037; border-radius: 50%; z-index: 3;
+        }
+
+        .cake-v2-writing { 
+            position: absolute; top: 160px; left: 50%; transform: translate(-50%, -50%); 
+            width: 90%; color: #fff; font-family: 'Dancing Script', cursive; font-size: 28px; 
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.8); opacity: 0; transition: opacity 1.5s; z-index: 50; 
+        }
+
+        /* THE 21 CANDLES */
+        .candle-v2 { position: absolute; width: 5px; height: 35px; background: repeating-linear-gradient(45deg, #ff85a2, #ff85a2 5px, #fff 5px, #fff 10px); border-radius: 2px; z-index: 10; transform-origin: bottom; }
+        .flame-v2 { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); width: 10px; height: 16px; background: #ffca28; border-radius: 50% 50% 20% 20%; box-shadow: 0 0 12px #ffca28; animation: flickerV2 0.1s infinite alternate; }
+        .extinguished .flame-v2 { display: none; }
+
+        @keyframes flickerV2 { from { opacity: 0.8; transform: translateX(-50%) scale(1); } to { opacity: 1; transform: translateX(-50%) scale(1.2); } }
+
+        /* THE GIFT */
+        .gift-box-v2 { position: relative; width: 140px; height: 140px; margin: 20px auto; cursor: pointer; }
+        .gift-v2-bottom { position: absolute; bottom: 0; width: 140px; height: 100px; background: #ff4081; border-radius: 8px; }
+        .gift-v2-lid { position: absolute; top: 0; width: 150px; height: 35px; background: #f50057; left: -5px; border-radius: 4px; transition: 0.7s; z-index: 5; }
+        .ribbon-v { position: absolute; left: 50%; transform: translateX(-50%); width: 20px; height: 100%; background: #ffeb3b; }
+        .ribbon-h { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; height: 20px; background: #ffeb3b; }
+        .open .gift-v2-lid { transform: translateY(-140px) rotate(15deg); opacity: 0; }
 
         button { padding: 12px 25px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 15px; background-color: #f06292; color: white; }
         #noBtn { position: absolute; background-color: #eee; color: #999; }
-        .letter { text-align: left; font-style: italic; font-size: 14px; background: #fff9c4; padding: 20px; border-radius: 15px; line-height: 1.6; }
-
-        @keyframes flicker { from { opacity: 0.8; } to { opacity: 1; transform: translateX(-50%) scale(1.2); } }
+        .letter-v2 { text-align: left; font-style: italic; font-size: 14px; background: #fffde7; padding: 20px; border-radius: 15px; line-height: 1.6; border: 1px dashed #fbc02d; }
     </style>
 </head>
 <body>
@@ -46,30 +73,33 @@
     <div id="card">
         <div id="step1">
             <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp4ZzRnd3p6eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/cLS1cfxvGOPVpf9g3y/giphy.gif" width="80">
-            <h1>Is it your birthday?</h1>
+            <h1>Is it your birthday today?</h1>
             <div style="height: 100px; position: relative;"><button id="yesBtn">Yes! 🎂</button><button id="noBtn">No</button></div>
         </div>
 
         <div id="step2" class="hidden">
-            <div class="cake-container" id="cakeArea">
-                <div class="cake-body"></div><div class="cake-top"></div>
-                <div class="cake-writing" id="cakeWriting">Happy Birthday, Iyomo! ✨</div>
+            <div class="cake-v2-container" id="cakeArea">
+                <div class="cake-v2-base"></div>
+                <div class="cake-v2-rim"></div>
+                <div class="cake-v2-top"></div>
+                <div class="cake-v2-writing" id="cakeWriting">Happy Birthday, Iyomo! ✨</div>
                 <div id="candlesLayer"></div>
             </div>
-            <button id="blowBtn">Activate Mic</button>
-            <button id="toGiftBtn" class="hidden">Open Gift! 🎁</button>
+            <button id="blowBtn">Activate Mic & Blow</button>
+            <button id="toGiftBtn" class="hidden">Open Your Gift! 🎁</button>
         </div>
 
         <div id="step3" class="hidden">
-            <h1>Something for you... 🎁</h1>
-            <div class="gift-container" id="giftBox">
-                <div class="gift-lid"><div class="ribbon-v"></div></div>
-                <div class="gift-box"><div class="ribbon-h"></div><div class="ribbon-v"></div></div>
+            <h2>You have a gift! 🎁</h2>
+            <div class="gift-box-v2" id="giftBox">
+                <div class="gift-v2-lid"><div class="ribbon-v"></div></div>
+                <div class="gift-v2-bottom"><div class="ribbon-h"></div><div class="ribbon-v"></div></div>
             </div>
+            <p style="font-size: 12px; color: #888;">Tap the box to open</p>
         </div>
 
         <div id="step4" class="hidden">
-            <div class="letter">
+            <div class="letter-v2">
                 Dear Harriet,<br><br>
                 I hope this message finds you well. On your special day, I want to wish you a very Happy Birthday. May the year ahead bring you joy, success, and peace in all that you do. Though we haven’t spoken in some time, I want you to know that I still hold respect and appreciation for the connection we once shared.<br><br>
                 May you find happiness in the small moments, courage in challenges, and comfort in the presence of those who truly care for you. Please accept my heartfelt wishes for your birthday.<br><br>
@@ -79,33 +109,30 @@
     </div>
 
     <script>
-        // Sound Effect (Party Pop)
         const popSound = new Audio('https://www.myinstants.com/media/sounds/party-horn.mp3');
 
-        // Balloon Generator
         function createBalloon() {
-            const colors = ['#ff85a2', '#64b5f6', '#fff176', '#aed581'];
+            const colors = ['#ff85a2', '#64b5f6', '#fff176', '#ce93d8'];
             const b = document.createElement('div');
             b.className = 'balloon';
-            b.style.left = Math.random() * 100 + 'vw';
+            b.style.left = Math.random() * 90 + 'vw';
             b.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
             document.body.appendChild(b);
             setTimeout(() => b.remove(), 6000);
         }
 
-        // 21 Candles
         const candlesLayer = document.getElementById('candlesLayer');
         for(let i=0; i<21; i++) {
             const candle = document.createElement('div');
-            candle.className = 'candle';
+            candle.className = 'candle-v2';
             const angle = (i / 21) * Math.PI * 2;
+            // Math to place candles on the rim of the cake top
             candle.style.left = (135 + Math.cos(angle) * 85) + 'px';
-            candle.style.top = (60 + Math.sin(angle) * 30) + 'px';
-            candle.innerHTML = '<div class="flame"></div>';
+            candle.style.top = (85 + Math.sin(angle) * 25) + 'px';
+            candle.innerHTML = '<div class="flame-v2"></div>';
             candlesLayer.appendChild(candle);
         }
 
-        // No Button
         setInterval(() => {
             const x = Math.random() * (window.innerWidth - 100);
             const y = Math.random() * (window.innerHeight - 50);
@@ -113,15 +140,14 @@
             document.getElementById('noBtn').style.top = y + 'px';
         }, 700);
 
-        // Step Transitions
         document.getElementById('yesBtn').onclick = () => {
             document.getElementById('step1').classList.add('hidden');
             document.getElementById('step2').classList.remove('hidden');
-            setInterval(createBalloon, 1000);
+            setInterval(createBalloon, 800);
         };
 
         function extinguish() {
-            document.querySelectorAll('.candle').forEach(c => c.classList.add('extinguished'));
+            document.querySelectorAll('.candle-v2').forEach(c => c.classList.add('extinguished'));
             document.getElementById('cakeWriting').style.opacity = "1";
             document.getElementById('toGiftBtn').classList.remove('hidden');
             document.getElementById('blowBtn').classList.add('hidden');
@@ -135,12 +161,10 @@
                 const analyser = audioContext.createAnalyser();
                 const microphone = audioContext.createMediaStreamSource(stream);
                 microphone.connect(analyser);
-                analyser.fftSize = 256;
-                const bufferLength = analyser.frequencyBinCount;
-                const dataArray = new Uint8Array(bufferLength);
                 function check() {
-                    analyser.getByteFrequencyData(dataArray);
-                    if ((dataArray.reduce((a, b) => a + b, 0) / bufferLength) > 40) { 
+                    const data = new Uint8Array(analyser.frequencyBinCount);
+                    analyser.getByteFrequencyData(data);
+                    if ((data.reduce((a, b) => a + b, 0) / data.length) > 40) { 
                         extinguish();
                         stream.getTracks().forEach(t => t.stop());
                     } else { requestAnimationFrame(check); }
@@ -155,13 +179,13 @@
         };
 
         document.getElementById('giftBox').onclick = function() {
-            popSound.play(); // Play sound on tap
+            try { popSound.play(); } catch(e) {}
             this.classList.add('open');
             confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
             setTimeout(() => {
                 document.getElementById('step3').classList.add('hidden');
                 document.getElementById('step4').classList.remove('hidden');
-            }, 1200);
+            }, 1000);
         };
     </script>
 </body>
