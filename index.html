@@ -10,37 +10,42 @@
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
 
         body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #fff9c4; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-        #card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; width: 350px; position: relative; z-index: 10; max-height: 90vh; }
+        #card { background: white; padding: 25px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; width: 380px; position: relative; z-index: 10; }
         .hidden { display: none !important; }
-        h1 { color: #fbc02d; font-size: 22px; margin: 10px 0; }
         
-        /* THE CAKE IMAGE */
-        .cake-container { position: relative; width: 280px; height: 280px; margin: 0 auto; cursor: pointer; }
-        .cake-img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; border: 4px solid #3d1f00; }
+        /* 3D BIRTHDAY CAKE */
+        .cake-wrapper { position: relative; width: 250px; height: 250px; margin: 20px auto; cursor: pointer; }
         
-        /* 21 CANDLES */
-        .candles-layer { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; }
-        .candle { position: absolute; width: 5px; height: 25px; background: linear-gradient(to bottom, #ff85a2, #fff); border-radius: 2px; }
-        .flame { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 10px; height: 15px; background: #ff9800; border-radius: 50% 50% 20% 20%; box-shadow: 0 0 10px #ff9800; animation: flicker 0.1s infinite alternate; }
+        .cake-body { position: absolute; bottom: 20px; width: 250px; height: 120px; background: #3d1f00; border-radius: 0 0 120px 120px / 0 0 40px 40px; box-shadow: inset 0 -10px 20px rgba(0,0,0,0.4); }
+        
+        .cake-top { position: absolute; bottom: 100px; width: 250px; height: 80px; background: #5d2e00; border-radius: 50%; border: 6px solid #ff85a2; /* Pink Cream Border */ box-sizing: border-box; }
+        
+        .pink-cream { position: absolute; bottom: 130px; width: 250px; height: 40px; background: #ff85a2; border-radius: 50%; box-shadow: 0 10px 0 #f06292; }
+
+        /* CANDLES POSITIONED ON TOP */
+        .candles-container { position: absolute; top: 40px; width: 250px; height: 80px; pointer-events: none; }
+        .candle { position: absolute; width: 6px; height: 35px; background: linear-gradient(to bottom, #ff4081, #fff); border-radius: 3px; z-index: 2; }
+        .flame { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 10px; height: 16px; background: #ff9800; border-radius: 50% 50% 20% 20%; box-shadow: 0 0 12px #ff9800; animation: flicker 0.1s infinite alternate; }
         .extinguished .flame { display: none; }
 
         @keyframes flicker {
             from { transform: translateX(-50%) scale(1); opacity: 0.8; }
-            to { transform: translateX(-50%) scale(1.1); opacity: 1; }
+            to { transform: translateX(-50%) scale(1.15); opacity: 1; }
         }
 
-        /* Handwritten Text */
+        /* TEXT ON CAKE */
         .cake-writing {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 90%; color: #fff; text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-            font-family: 'Dancing Script', cursive; font-size: 32px;
-            opacity: 0; transition: opacity 1.5s ease-in; pointer-events: none; z-index: 50;
+            position: absolute; top: 120px; left: 50%; transform: translateX(-50%);
+            width: 80%; color: #ffeb3b; font-family: 'Dancing Script', cursive; 
+            font-size: 26px; opacity: 0; transition: opacity 1.5s ease-in; pointer-events: none; z-index: 10;
         }
 
-        button { padding: 12px 25px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+        /* BUTTONS & UI */
+        h1 { color: #fbc02d; font-size: 22px; }
+        button { padding: 12px 25px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 15px; }
         #yesBtn { background-color: #fbc02d; color: white; }
         #noBtn { background-color: #eeeeee; color: #999; position: absolute; transition: 0.1s; }
-        .letter { background: #fffde7; padding: 20px; border: 1px dashed #fbc02d; border-radius: 15px; text-align: left; font-style: italic; color: #444; line-height: 1.6; font-size: 14px; overflow-y: auto; max-height: 60vh; }
+        .letter { background: #fffde7; padding: 20px; border: 1px dashed #fbc02d; border-radius: 15px; text-align: left; font-style: italic; font-size: 14px; max-height: 50vh; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -56,12 +61,14 @@
         </div>
 
         <div id="step2" class="hidden">
-            <div class="cake-container" id="cakeClickArea">
-                <img class="cake-img" src="https://images.unsplash.com/photo-1599785209707-a456fc1337bb?q=80&w=1000&auto=format&fit=crop" alt="Cake">
-                <div class="candles-layer" id="candlesLayer"></div>
+            <div class="cake-wrapper" id="cakeArea">
+                <div class="cake-body"></div>
+                <div class="cake-top"></div>
+                <div class="pink-cream"></div>
+                <div class="candles-container" id="candlesContainer"></div>
                 <div class="cake-writing" id="cakeWriting">Happy Birthday, Iyomo! ✨</div>
             </div>
-            <p id="instruction" style="font-size: 12px; margin-top: 10px;">Tap 'Activate' and blow, or just tap the cake!</p>
+            <p id="instruction" style="font-size: 13px;">Click 'Activate' and blow, or tap the cake!</p>
             <button id="blowBtn" style="background:#03a9f4; color:white;">Activate Mic</button>
             <button id="continueBtn" class="hidden" style="background:#4CAF50; color:white;">Continue →</button>
         </div>
@@ -80,19 +87,21 @@
     <script>
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
-        const candlesLayer = document.getElementById('candlesLayer');
+        const candlesContainer = document.getElementById('candlesContainer');
 
-        // 21 Candles positioned in an oval
+        // Position 21 candles ON the cake top
         for(let i=0; i<21; i++) {
             const candle = document.createElement('div');
             candle.className = 'candle';
             const angle = (i / 21) * Math.PI * 2;
-            const x = 135 + Math.cos(angle) * 85; 
-            const y = 130 + Math.sin(angle) * 45;
+            const rx = 90; // radius x
+            const ry = 30; // radius y
+            const x = 120 + Math.cos(angle) * rx;
+            const y = 30 + Math.sin(angle) * ry;
             candle.style.left = x + 'px';
             candle.style.top = y + 'px';
             candle.innerHTML = '<div class="flame"></div>';
-            candlesLayer.appendChild(candle);
+            candlesContainer.appendChild(candle);
         }
 
         setInterval(() => {
@@ -107,23 +116,19 @@
             document.getElementById('step2').classList.remove('hidden');
         };
 
-        function blowOut() {
+        function extinguish() {
             document.querySelectorAll('.candle').forEach(c => c.classList.add('extinguished'));
             document.getElementById('cakeWriting').style.opacity = "1";
             document.getElementById('continueBtn').classList.remove('hidden');
             document.getElementById('blowBtn').classList.add('hidden');
-            document.getElementById('instruction').innerText = "You did it!";
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.7 } });
         }
 
-        // Fallback: Click the cake
-        document.getElementById('cakeClickArea').onclick = blowOut;
+        document.getElementById('cakeArea').onclick = extinguish;
 
-        // Microphone Logic
         document.getElementById('blowBtn').onclick = function() {
             this.innerText = "Listening...";
-            navigator.mediaDevices.getUserMedia({ audio: true })
-            .then(stream => {
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
                 const audioContext = new AudioContext();
                 const analyser = audioContext.createAnalyser();
                 const microphone = audioContext.createMediaStreamSource(stream);
@@ -132,23 +137,16 @@
                 const bufferLength = analyser.frequencyBinCount;
                 const dataArray = new Uint8Array(bufferLength);
 
-                function checkVolume() {
+                function check() {
                     analyser.getByteFrequencyData(dataArray);
-                    let values = 0;
-                    for (let i = 0; i < bufferLength; i++) { values += dataArray[i]; }
-                    let average = values / bufferLength;
-                    if (average > 40) { 
-                        blowOut();
+                    let sum = dataArray.reduce((a, b) => a + b, 0);
+                    if ((sum / bufferLength) > 45) { 
+                        extinguish();
                         stream.getTracks().forEach(t => t.stop());
-                    } else {
-                        requestAnimationFrame(checkVolume);
-                    }
+                    } else { requestAnimationFrame(check); }
                 }
-                checkVolume();
-            })
-            .catch(() => {
-                this.innerText = "Mic Error - Tap Cake Instead";
-            });
+                check();
+            }).catch(() => { this.innerText = "Tap the cake!"; });
         };
 
         document.getElementById('continueBtn').onclick = () => {
